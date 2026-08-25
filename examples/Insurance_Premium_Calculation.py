@@ -1,15 +1,3 @@
-"""
-Weighted goal-programming example for subsidized health-insurance design.
-
-The numerical values in this example are synthetic. They are constructed to
-represent health-economic trade-offs documented in the literature: premium
-sensitivity, adverse selection, affordability, subsidy requirements, access
-for high-risk members, and portfolio financial sustainability.
-
-For each population segment, the model selects exactly one premium/subsidy
-package. Hard constraints define the feasible policy space; weighted goals
-then determine how competing policy aspirations are balanced.
-"""
 
 import pandas as pd
 import pulp
@@ -19,10 +7,7 @@ from pygulp.core import GLPModel
 from pygulp.enums import ConstraintSense, GoalSense
 from pygulp.goal import Goal
 
-
-# -------------------------------------------------
 # 1. Eligible population segments
-# -------------------------------------------------
 
 segments = pd.DataFrame(
     {
@@ -74,15 +59,7 @@ segments = pd.DataFrame(
     }
 )
 
-
-# -------------------------------------------------
 # 2. Candidate premium / subsidy packages
-# -------------------------------------------------
-#
-# Lower enrollee contributions generally increase expected take-up but
-# require more subsidy. Higher enrollee contributions reduce take-up and
-# increase expected claims among those who remain enrolled, representing
-# adverse selection.
 
 price_options = pd.DataFrame(
     {
@@ -146,10 +123,7 @@ price_options = pd.DataFrame(
     }
 )
 
-
-# -------------------------------------------------
 # 3. Derived option-level economics
-# -------------------------------------------------
 
 option_data = price_options.merge(
     segments[
@@ -196,10 +170,7 @@ option_data["Premium_Income_Ratio"] = (
     option_data["Enrollee_Premium"] / option_data["Annual_Income_Proxy"]
 )
 
-
-# -------------------------------------------------
 # 4. Portfolio constraints and aspirational goals
-# -------------------------------------------------
 
 global_params = {
     # Hard constraints / policy guardrails
@@ -217,10 +188,7 @@ global_params = {
     "Target_Avg_Vulnerable_Premium_Income_Ratio": 0.017,
 }
 
-
-# -------------------------------------------------
 # 5. Helpers
-# -------------------------------------------------
 
 S = segments["Segment"].tolist()
 K = price_options["Option_ID"].tolist()
@@ -257,10 +225,7 @@ high_risk_eligible_lives = float(
     ].sum()
 )
 
-
-# -------------------------------------------------
 # 6. Build GLP model
-# -------------------------------------------------
 
 model = GLPModel(
     name="Subsidized_Health_Insurance_Design",
@@ -278,10 +243,7 @@ y = {
     for k in K
 }
 
-
-# -------------------------------------------------
 # 7. Portfolio expressions
-# -------------------------------------------------
 
 total_enrollees_expr = pulp.lpSum(
     option_stats[k]["Expected_Enrollees"] * y[k] for k in K
@@ -307,8 +269,6 @@ high_risk_enrollees_expr = pulp.lpSum(
     if option_stats[k]["High_Risk_Group"] == 1
 )
 
-# Population-weighted premium-to-income burden among vulnerable groups.
-# Eligible lives are fixed weights, which keeps the expression linear.
 avg_vulnerable_premium_burden_expr = (
     pulp.lpSum(
         option_stats[k]["Premium_Income_Ratio"]
@@ -321,9 +281,7 @@ avg_vulnerable_premium_burden_expr = (
 )
 
 
-# -------------------------------------------------
 # 8. Hard constraints
-# -------------------------------------------------
 
 # A. Select exactly one premium/subsidy package for each segment.
 for s in S:
@@ -357,7 +315,7 @@ model.add_constraint(
 )
 
 # D. Vulnerable groups cannot be offered a package whose enrollee premium
-# exceeds the maximum policy-defined share of income.
+
 for s in vulnerable_segments:
     selected_premium_burden_expr = pulp.lpSum(
         option_stats[k]["Premium_Income_Ratio"] * y[k]
@@ -400,7 +358,6 @@ model.add_constraint(
 )
 
 
-# -------------------------------------------------
 # 9. Aspirational goals
 # -------------------------------------------------
 #
@@ -498,18 +455,11 @@ model.add_goal(
 )
 goal_weights["Vulnerable_Affordability"] = (0.0, 3.0)
 
-
-# -------------------------------------------------
 # 10. Solve weighted goal-programming model
-# -------------------------------------------------
 
 result = model.solve_weighted(goal_weights=goal_weights)
 
-
-# -------------------------------------------------
 # 11. Report selected policy packages
-# -------------------------------------------------
-
 print(f"Status: {result['status']}")
 print(f"Objective value: {result['objective']:.6f}")
 
@@ -554,9 +504,7 @@ print(
 )
 
 
-# -------------------------------------------------
 # 12. Portfolio outcomes
-# -------------------------------------------------
 
 selected_options = {
     k
@@ -652,9 +600,7 @@ print(
 )
 
 
-# -------------------------------------------------
 # 13. Goal deviations
-# -------------------------------------------------
 
 print("\nNormalized goal deviations:")
 
