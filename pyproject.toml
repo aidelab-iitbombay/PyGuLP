@@ -23,8 +23,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/aidelab-iitbombay/GLP"
-Documentation = "https://www.kcdh.iitb.ac.in/~kshitij/browser/assets/glp-docs/index.html"
+Homepage = "https://github.com/aidelab-iitbombay/PyGuLP"
+Documentation = "https://aidelab-iitbombay.github.io/PyGuLP/"
 
 [project.optional-dependencies]
 # For visualisation and data handling
