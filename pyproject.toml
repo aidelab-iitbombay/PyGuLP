@@ -45,7 +45,7 @@ dev = [
     "sphinx-rtd-theme",
     "pytest",
     "pytest-cov",
-    "black",
+    "black==25.1.0",
     "ruff",
     "mypy",
     "pre-commit",
