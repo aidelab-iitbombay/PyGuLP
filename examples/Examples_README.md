@@ -50,7 +50,6 @@ Files:
 
 ### Reference solution
 
-The reference solution below matches the executed TAT/Chemo example in the PyGuLP documentation.
 
 ```text
 Status: Optimal
@@ -152,4 +151,4 @@ The non-zero objective is intentional: under the stated subsidy budget and polic
 
 The reference results above provide benchmark outputs for the stated constructed datasets and default weights.
 
-Small differences in floating-point display are not substantive. For models with multiple equivalent optima, such as the hospital waiting-time example, a solver may return a different decision-variable allocation with the same optimal objective and feasibility conditions.
+For models with multiple equivalent optima, a solver may return a different decision-variable allocation with the same optimal objective and feasibility conditions.
