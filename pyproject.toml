@@ -7,8 +7,8 @@ name = "pygulp"
 version = "0.1.3"
 authors = [
     { name = "AIDE Lab", email = "info.aidelab@gmail.com" },
-    { name = "Kshitij Vaidya", email = "22b1829@iitb.ac.in" },
-    { name = "Ishan Pandit", email = "22b2141@iitb.ac.in" },
+    { name = "Kshitij Vaidya", email = "kshitijvaidya16@gmail.com" },
+    { name = "Ishan Pandit", email = "ishanbp12@gmail.com" },
     { name = "Roomani Srivastava", email = "roomani@iitb.ac.in" }
 ]
 description = "Python Package for Goal Linear Programming"
@@ -19,7 +19,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pulp", # Core dependency for Solver Backend
+    "pulp>=2.7.0"
 ]
 
 [project.urls]
@@ -27,8 +27,13 @@ Homepage = "https://github.com/aidelab-iitbombay/PyGuLP"
 Documentation = "https://aidelab-iitbombay.github.io/PyGuLP/"
 
 [project.optional-dependencies]
+
 # For visualisation and data handling
-viz = ["pandas", "matplotlib"]
+viz = [
+    "pandas>=1.5.0",
+    "matplotlib",
+]
+
 # Dependencies for development
 dev = [
     "ipython",
@@ -36,7 +41,7 @@ dev = [
     "nbconvert",
     "nbformat",
     "nbsphinx",
-    "pandas",
+    "pandas>=1.5.0",
     "sphinx-rtd-theme",
     "pytest",
     "pytest-cov",
@@ -48,7 +53,6 @@ dev = [
     "build",
     "sphinx",
 ]
-
 [tool.black]
 line-length = 88
 target-version = ["py39"]
