@@ -7,6 +7,7 @@ from pygulp.enums import ConstraintSense, GoalSense
 from pygulp.goal import Goal
 
 # 1. Eligible population segments
+
 segments = pd.DataFrame(
     {
         "Segment": [
@@ -60,6 +61,7 @@ segments = pd.DataFrame(
 
 # 2. Candidate premium / subsidy packages
 
+
 price_options = pd.DataFrame(
     {
         "Segment": [
@@ -85,44 +87,120 @@ price_options = pd.DataFrame(
             "Older_HighRisk",
         ],
         "Option_ID": [
-            "IY_A", "IY_B", "IY_C", "IY_D",
-            "IF_A", "IF_B", "IF_C", "IF_D",
-            "SE_A", "SE_B", "SE_C", "SE_D",
-            "SF_A", "SF_B", "SF_C", "SF_D",
-            "OH_A", "OH_B", "OH_C", "OH_D",
+            "IY_A",
+            "IY_B",
+            "IY_C",
+            "IY_D",
+            "IF_A",
+            "IF_B",
+            "IF_C",
+            "IF_D",
+            "SE_A",
+            "SE_B",
+            "SE_C",
+            "SE_D",
+            "SF_A",
+            "SF_B",
+            "SF_C",
+            "SF_D",
+            "OH_A",
+            "OH_B",
+            "OH_C",
+            "OH_D",
         ],
         "Enrollee_Premium": [
-            1500.0, 2500.0, 3500.0, 4500.0,
-            2500.0, 4000.0, 5500.0, 7000.0,
-            9000.0, 10500.0, 12000.0, 13500.0,
-            13000.0, 14500.0, 16000.0, 18000.0,
-            8000.0, 11000.0, 14000.0, 17000.0,
+            1500.0,
+            2500.0,
+            3500.0,
+            4500.0,
+            2500.0,
+            4000.0,
+            5500.0,
+            7000.0,
+            9000.0,
+            10500.0,
+            12000.0,
+            13500.0,
+            13000.0,
+            14500.0,
+            16000.0,
+            18000.0,
+            8000.0,
+            11000.0,
+            14000.0,
+            17000.0,
         ],
         "Subsidy_per_Enrollee": [
-            5000.0, 4000.0, 3000.0, 2000.0,
-            8500.0, 7000.0, 5500.0, 4000.0,
-            2500.0, 1500.0, 500.0, 0.0,
-            0.0, 0.0, 0.0, 0.0,
-            22000.0, 19000.0, 16000.0, 13000.0,
+            5000.0,
+            4000.0,
+            3000.0,
+            2000.0,
+            8500.0,
+            7000.0,
+            5500.0,
+            4000.0,
+            2500.0,
+            1500.0,
+            500.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            22000.0,
+            19000.0,
+            16000.0,
+            13000.0,
         ],
         "Expected_TakeUp": [
-            0.92, 0.84, 0.72, 0.58,
-            0.90, 0.82, 0.70, 0.55,
-            0.88, 0.80, 0.69, 0.56,
-            0.94, 0.89, 0.80, 0.68,
-            0.93, 0.86, 0.74, 0.60,
+            0.92,
+            0.84,
+            0.72,
+            0.58,
+            0.90,
+            0.82,
+            0.70,
+            0.55,
+            0.88,
+            0.80,
+            0.69,
+            0.56,
+            0.94,
+            0.89,
+            0.80,
+            0.68,
+            0.93,
+            0.86,
+            0.74,
+            0.60,
         ],
         "Expected_Claim_Cost_per_Enrollee": [
-            4300.0, 4700.0, 5200.0, 6000.0,
-            7800.0, 8500.0, 9400.0, 10500.0,
-            10000.0, 10600.0, 11400.0, 12500.0,
-            12200.0, 12600.0, 13400.0, 14600.0,
-            24000.0, 25500.0, 27500.0, 30000.0,
+            4300.0,
+            4700.0,
+            5200.0,
+            6000.0,
+            7800.0,
+            8500.0,
+            9400.0,
+            10500.0,
+            10000.0,
+            10600.0,
+            11400.0,
+            12500.0,
+            12200.0,
+            12600.0,
+            13400.0,
+            14600.0,
+            24000.0,
+            25500.0,
+            27500.0,
+            30000.0,
         ],
     }
 )
 
 # 3. Derived option-level economics
+
 option_data = price_options.merge(
     segments[
         [
@@ -139,8 +217,7 @@ option_data = price_options.merge(
 )
 
 option_data["Gross_Premium_Received"] = (
-    option_data["Enrollee_Premium"]
-    + option_data["Subsidy_per_Enrollee"]
+    option_data["Enrollee_Premium"] + option_data["Subsidy_per_Enrollee"]
 )
 option_data["Expected_Enrollees"] = (
     option_data["Eligible_Lives"] * option_data["Expected_TakeUp"]
@@ -152,12 +229,10 @@ option_data["Expected_Revenue"] = (
     option_data["Expected_Enrollees"] * option_data["Gross_Premium_Received"]
 )
 option_data["Expected_Claims"] = (
-    option_data["Expected_Enrollees"]
-    * option_data["Expected_Claim_Cost_per_Enrollee"]
+    option_data["Expected_Enrollees"] * option_data["Expected_Claim_Cost_per_Enrollee"]
 )
 option_data["Expected_Admin_Cost"] = (
-    option_data["Expected_Enrollees"]
-    * option_data["Admin_Cost_per_Enrollee"]
+    option_data["Expected_Enrollees"] * option_data["Admin_Cost_per_Enrollee"]
 )
 option_data["Expected_Surplus"] = (
     option_data["Expected_Revenue"]
@@ -177,7 +252,6 @@ global_params = {
     "Max_Vulnerable_Premium_Income_Ratio": 0.03,
     "Min_Vulnerable_Coverage_Floor": 0.60,
     "Min_HighRisk_Coverage_Floor": 0.60,
-
     # Aspirational goals
     "Target_Overall_Coverage": 0.82,
     "Target_Vulnerable_Coverage": 0.88,
@@ -195,17 +269,12 @@ segment_stats = segments.set_index("Segment").to_dict("index")
 option_stats = option_data.set_index("Option_ID").to_dict("index")
 
 options_by_segment = {
-    s: option_data.loc[option_data["Segment"] == s, "Option_ID"].tolist()
-    for s in S
+    s: option_data.loc[option_data["Segment"] == s, "Option_ID"].tolist() for s in S
 }
 
-vulnerable_segments = [
-    s for s in S if segment_stats[s]["Vulnerable_Group"] == 1
-]
+vulnerable_segments = [s for s in S if segment_stats[s]["Vulnerable_Group"] == 1]
 
-high_risk_segments = [
-    s for s in S if segment_stats[s]["High_Risk_Group"] == 1
-]
+high_risk_segments = [s for s in S if segment_stats[s]["High_Risk_Group"] == 1]
 
 total_eligible_lives = float(segments["Eligible_Lives"].sum())
 
@@ -224,6 +293,7 @@ high_risk_eligible_lives = float(
 )
 
 # 6. Build GLP model
+
 model = GLPModel(
     name="Subsidized_Health_Insurance_Design",
     minimize=True,
@@ -241,6 +311,7 @@ y = {
 }
 
 # 7. Portfolio expressions
+
 total_enrollees_expr = pulp.lpSum(
     option_stats[k]["Expected_Enrollees"] * y[k] for k in K
 )
@@ -249,9 +320,7 @@ total_subsidy_expr = pulp.lpSum(
     option_stats[k]["Expected_Subsidy_Spend"] * y[k] for k in K
 )
 
-total_surplus_expr = pulp.lpSum(
-    option_stats[k]["Expected_Surplus"] * y[k] for k in K
-)
+total_surplus_expr = pulp.lpSum(option_stats[k]["Expected_Surplus"] * y[k] for k in K)
 
 vulnerable_enrollees_expr = pulp.lpSum(
     option_stats[k]["Expected_Enrollees"] * y[k]
@@ -265,8 +334,7 @@ high_risk_enrollees_expr = pulp.lpSum(
     if option_stats[k]["High_Risk_Group"] == 1
 )
 
-# Population-weighted premium-to-income burden among vulnerable groups.
-# Eligible lives are fixed weights, which keeps the expression linear.
+
 avg_vulnerable_premium_burden_expr = (
     pulp.lpSum(
         option_stats[k]["Premium_Income_Ratio"]
@@ -298,9 +366,7 @@ for s in S:
 model.add_constraint(
     Constraint(
         name="Subsidy_Budget",
-        expression=(
-            total_subsidy_expr / global_params["Subsidy_Budget"]
-        ),
+        expression=(total_subsidy_expr / global_params["Subsidy_Budget"]),
         sense=ConstraintSense.LE,
         rhs=1.0,
     )
@@ -312,10 +378,7 @@ model.add_constraint(
 model.add_constraint(
     Constraint(
         name="Nonnegative_Portfolio_Surplus",
-        expression=(
-            total_surplus_expr
-            / global_params["Target_Portfolio_Surplus"]
-        ),
+        expression=(total_surplus_expr / global_params["Target_Portfolio_Surplus"]),
         sense=ConstraintSense.GE,
         rhs=(
             global_params["Min_Portfolio_Surplus"]
@@ -328,8 +391,7 @@ model.add_constraint(
 # exceeds the maximum policy-defined share of income.
 for s in vulnerable_segments:
     selected_premium_burden_expr = pulp.lpSum(
-        option_stats[k]["Premium_Income_Ratio"] * y[k]
-        for k in options_by_segment[s]
+        option_stats[k]["Premium_Income_Ratio"] * y[k] for k in options_by_segment[s]
     )
 
     model.add_constraint(
@@ -346,9 +408,7 @@ for s in vulnerable_segments:
 model.add_constraint(
     Constraint(
         name="Minimum_Vulnerable_Coverage",
-        expression=(
-            vulnerable_enrollees_expr / vulnerable_eligible_lives
-        ),
+        expression=(vulnerable_enrollees_expr / vulnerable_eligible_lives),
         sense=ConstraintSense.GE,
         rhs=global_params["Min_Vulnerable_Coverage_Floor"],
     )
@@ -358,14 +418,11 @@ model.add_constraint(
 model.add_constraint(
     Constraint(
         name="Minimum_HighRisk_Coverage",
-        expression=(
-            high_risk_enrollees_expr / high_risk_eligible_lives
-        ),
+        expression=(high_risk_enrollees_expr / high_risk_eligible_lives),
         sense=ConstraintSense.GE,
         rhs=global_params["Min_HighRisk_Coverage_Floor"],
     )
 )
-
 
 # 9. Aspirational goals
 
@@ -389,16 +446,13 @@ goal_weights["Overall_Coverage"] = (2.0, 0.0)
 
 # Goal 2. Vulnerable-group coverage >= 88%.
 vulnerable_coverage_target_count = (
-    global_params["Target_Vulnerable_Coverage"]
-    * vulnerable_eligible_lives
+    global_params["Target_Vulnerable_Coverage"] * vulnerable_eligible_lives
 )
 
 model.add_goal(
     Goal(
         name="Vulnerable_Coverage",
-        expression=(
-            vulnerable_enrollees_expr / vulnerable_coverage_target_count
-        ),
+        expression=(vulnerable_enrollees_expr / vulnerable_coverage_target_count),
         target=1.0,
         sense=GoalSense.MINIMIZE_OVER,
         weight=4.0,
@@ -408,8 +462,7 @@ goal_weights["Vulnerable_Coverage"] = (4.0, 0.0)
 
 # Goal 3. High-risk coverage >= 86%.
 high_risk_coverage_target_count = (
-    global_params["Target_HighRisk_Coverage"]
-    * high_risk_eligible_lives
+    global_params["Target_HighRisk_Coverage"] * high_risk_eligible_lives
 )
 
 model.add_goal(
@@ -454,6 +507,7 @@ model.add_goal(
 goal_weights["Vulnerable_Affordability"] = (0.0, 3.0)
 
 # 10. Solve weighted goal-programming model
+
 result = model.solve_weighted(goal_weights=goal_weights)
 
 # 11. Report selected policy packages
@@ -477,9 +531,7 @@ for s in S:
                     "Subsidy_per_Enrollee": row["Subsidy_per_Enrollee"],
                     "Expected_TakeUp": row["Expected_TakeUp"],
                     "Expected_Enrollees": row["Expected_Enrollees"],
-                    "Claim_Cost_per_Enrollee": row[
-                        "Expected_Claim_Cost_per_Enrollee"
-                    ],
+                    "Claim_Cost_per_Enrollee": row["Expected_Claim_Cost_per_Enrollee"],
                     "Expected_Surplus": row["Expected_Surplus"],
                 }
             )
@@ -503,7 +555,6 @@ print(
 
 # 12. Portfolio outcomes
 
-
 selected_options = {
     k
     for k in K
@@ -513,24 +564,12 @@ selected_options = {
     )
 }
 
-total_enrollees = sum(
-    option_stats[k]["Expected_Enrollees"] for k in selected_options
-)
-total_subsidy = sum(
-    option_stats[k]["Expected_Subsidy_Spend"] for k in selected_options
-)
-total_revenue = sum(
-    option_stats[k]["Expected_Revenue"] for k in selected_options
-)
-total_claims = sum(
-    option_stats[k]["Expected_Claims"] for k in selected_options
-)
-total_admin_cost = sum(
-    option_stats[k]["Expected_Admin_Cost"] for k in selected_options
-)
-total_surplus = sum(
-    option_stats[k]["Expected_Surplus"] for k in selected_options
-)
+total_enrollees = sum(option_stats[k]["Expected_Enrollees"] for k in selected_options)
+total_subsidy = sum(option_stats[k]["Expected_Subsidy_Spend"] for k in selected_options)
+total_revenue = sum(option_stats[k]["Expected_Revenue"] for k in selected_options)
+total_claims = sum(option_stats[k]["Expected_Claims"] for k in selected_options)
+total_admin_cost = sum(option_stats[k]["Expected_Admin_Cost"] for k in selected_options)
+total_surplus = sum(option_stats[k]["Expected_Surplus"] for k in selected_options)
 
 vulnerable_enrollees = sum(
     option_stats[k]["Expected_Enrollees"]
@@ -550,8 +589,7 @@ high_risk_coverage = high_risk_enrollees / high_risk_eligible_lives
 
 avg_vulnerable_premium_burden = (
     sum(
-        option_stats[k]["Premium_Income_Ratio"]
-        * option_stats[k]["Eligible_Lives"]
+        option_stats[k]["Premium_Income_Ratio"] * option_stats[k]["Eligible_Lives"]
         for k in selected_options
         if option_stats[k]["Vulnerable_Group"] == 1
     )
@@ -598,12 +636,7 @@ print(
 )
 
 # 13. Goal deviations
-
 print("\nNormalized goal deviations:")
 
 for goal_name, (d_minus, d_plus) in result["deviations"].items():
-    print(
-        f"  {goal_name:<28} "
-        f"d_minus={d_minus:.6f}, "
-        f"d_plus={d_plus:.6f}"
-    )
+    print(f"  {goal_name:<28} " f"d_minus={d_minus:.6f}, " f"d_plus={d_plus:.6f}")
