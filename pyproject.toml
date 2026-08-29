@@ -21,7 +21,6 @@ classifiers = [
 dependencies = [
     "pulp>=2.7.0"
 ]
-
 [project.urls]
 Homepage = "https://github.com/aidelab-iitbombay/PyGuLP"
 Documentation = "https://aidelab-iitbombay.github.io/PyGuLP/"
