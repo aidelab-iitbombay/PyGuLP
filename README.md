@@ -1,6 +1,6 @@
 # 📦 PyGuLP — Python Package for Goal Linear Programming
 
-**PyGuLP** is a Python package for **Goal Linear Programming (GLP)** with an initial focus on **Weighted Goal Programming (WGP)**.
+**PyGuLP** is a Python package for **Goal Linear Programming (GLP)** with an initial focus on **Weighted Goal Programming (WGP)**. It provides a structured goal-programming layer over PuLP while retaining access to the underlying linear model.
 
 The package is designed for **multi-target linear optimization problems**, where several desired outcomes must be balanced simultaneously under linear constraints. Such problems commonly arise in health and public health planning, environmental management, resource allocation, and policy analysis.
 
@@ -39,7 +39,7 @@ Optional:
 
 ## What is Goal Linear Programming?
 
-Goal Linear Programming (GLP) extends classical Linear Programming (LP) by allowing **multiple targets** to be handled within a single linear optimization model.
+Goal Linear Programming (GLP) is a modelling approach for handling **multiple targets** within a linear optimization model.
 
 In standard LP, a problem optimizes one objective function subject to constraints. In many real-world planning problems, however, the task is to **approach several targets simultaneously** while maintaining feasibility.
 
@@ -71,7 +71,7 @@ With constraints:
     d- >= 0
     d+ >= 0
 
-Only one of `d-` or `d+` is positive in an optimal solution.
+When both deviations are positively penalized, only one of `d-` or `d+` needs to be positive in an optimal solution.
 
 ---
 
@@ -79,14 +79,15 @@ Only one of `d-` or `d+` is positive in an optimal solution.
 
 PyGuLP implements:
 
-    minimize  Σ w * (d- + d+)
+    minimize  Σ (w- * d- + w+ * d+)
 
 Where:
 
-- w is a non-negative weight assigned to each goal
-- larger weights enforce closer adherence to that target
+- w- is the penalty for under-achievement
+- w+ is the penalty for over-achievement
+- either penalty may be set to zero when deviation in that direction is acceptable
 
-Weights affect trade-offs but do not affect feasibility.
+Weights affect trade-offs but do not affect feasibility. When goals are expressed on substantially different numerical scales, normalization or other scale adjustment should be considered before weights are interpreted as relative priorities.
 
 ---
 
@@ -120,15 +121,17 @@ Deviation variables are created automatically when goals are added.
 - Automatic creation of deviation variables (d-, d+)
 - Automatic goal-linking constraint construction
 - Standard LP constraints (≤, =, ≥)
+- Asymmetric penalties for under- and over-achievement
 - Optional linear cost term
 - Transparent PuLP backend
 - Deterministic CBC solver support
+
 
 ---
 
 ## Solver Support
 
-PyGuLP uses **PuLP** as its modeling layer.
+PyGuLP uses **PuLP** as its underlying linear modeling layer and provides goal-programming abstractions on top of it.
 
 Default solver: **CBC** (bundled with PuLP)
 
@@ -201,7 +204,9 @@ Each deviation entry is:
 
 More detailed worked examples are available here:
 
-https://github.com/aidelab-iitbombay/GLP/tree/Worked_examples_using_GLP
+https://github.com/aidelab-iitbombay/PyGuLP/tree/main/examples
+
+Each worked example includes a runnable Python script, corresponding example data/notebook, and a reference solution for comparison.
 
 ---
 
@@ -221,6 +226,11 @@ https://github.com/aidelab-iitbombay/GLP/tree/Worked_examples_using_GLP
 - No hidden transformations
 - Full access to underlying PuLP model
 - Deterministic solutions given solver settings
+
+---
+## Contributing and Support
+
+Bug reports, feature requests, and contributions can be submitted through the GitHub repository. See [CONTRIBUTIONS.md](CONTRIBUTIONS.md) for guidance.
 
 ---
 
