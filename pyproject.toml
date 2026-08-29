@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygulp"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
     { name = "AIDE Lab", email = "info.aidelab@gmail.com" },
     { name = "Kshitij Vaidya", email = "22b1829@iitb.ac.in" },
