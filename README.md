@@ -107,14 +107,14 @@ Structured modeling objects consisting of:
 
 - linear expression
 - target value
-- goal sense (ATTAIN in v0.1.2)
+- goal sense
 - weight
 
 Deviation variables are created automatically when goals are added.
 
 ---
 
-## Current features (Version 0.1.2)
+## Current features
 
 - Weighted Goal Programming (WGP)
 - Automatic creation of deviation variables (d-, d+)
