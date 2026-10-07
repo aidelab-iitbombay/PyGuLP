@@ -1,11 +1,10 @@
 # src/pygulp/core.py
 """
-Core structures for Goal Linear Programming (GLP).
+Experimental internal module for Big-M and elastic-constraint functionality.
 
-Contains:
-- GoalSense, ConstraintSense enums
-- Goal, Constraint dataclasses
-- GLPModel (wrapper over PuLP)
+This module is retained to support exploration of possible future PyGuLP
+functionality. It is not part of the current public API. Users should use
+``pygulp.core`` for the supported PyGuLP implementation.
 """
 
 from __future__ import annotations
