@@ -19,7 +19,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pulp>=2.7.0,<3.0.0"
+    "pulp>=2.7.0,<4.0.0"
 ]
 
 [project.urls]
@@ -39,7 +39,6 @@ dev = [
     "ipython",
     "ipykernel",
     "nbconvert",
-    "nbformat",
     "nbsphinx",
     "pandas>=1.5.0",
     "sphinx-rtd-theme",
@@ -52,6 +51,7 @@ dev = [
     "twine",
     "build",
     "sphinx",
+    "pulp>=2.7.0,<4.0.0",
 ]
 
 [tool.black]
@@ -71,6 +71,10 @@ testpaths = ["tests"]
 packages = ["pygulp"]
 strict = true
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "pulp.*"
+ignore_errors = true
 
 [tool.setuptools]
 package-dir = {"" = "src"}
