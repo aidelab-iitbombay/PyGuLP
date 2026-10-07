@@ -1,10 +1,10 @@
-# src/pygulp/core.py
+# src/pygulp/core_with_bigM.py
 """
 Experimental internal module for Big-M and elastic-constraint functionality.
 
 This module is retained to support exploration of possible future PyGuLP
 functionality. It is not part of the current public API. Users should use
-src/pygulp/core.py for the supported PyGuLP implementation.
+``pygulp.core`` for the supported PyGuLP implementation.
 """
 
 from __future__ import annotations
