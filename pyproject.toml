@@ -19,7 +19,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pulp>=2.7.0"
+    "pulp>=2.7.0,<3.0.0"
+]
 ]
 [project.urls]
 Homepage = "https://github.com/aidelab-iitbombay/PyGuLP"
