@@ -21,6 +21,7 @@ classifiers = [
 dependencies = [
     "pulp>=2.7.0,<3.0.0"
 ]
+
 [project.urls]
 Homepage = "https://github.com/aidelab-iitbombay/PyGuLP"
 Documentation = "https://aidelab-iitbombay.github.io/PyGuLP/"
@@ -52,6 +53,7 @@ dev = [
     "build",
     "sphinx",
 ]
+
 [tool.black]
 line-length = 88
 target-version = ["py39"]
@@ -68,6 +70,7 @@ testpaths = ["tests"]
 [tool.mypy]
 packages = ["pygulp"]
 strict = true
+ignore_missing_imports = true
 
 [tool.setuptools]
 package-dir = {"" = "src"}
